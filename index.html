@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>唐宋八大家 · 奏折典藏</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --rosewood:    #2C1810;
+  --deep-wood:   #1A0C06;
+  --parchment:   #F2E8D0;
+  --parchment-dk:#E0D0AA;
+  --cream:       #FAF4E6;
+  --vermillion:  #A8251A;
+  --vermillion-lt:#C0392B;
+  --gold:        #C9A84C;
+  --gold-lt:     #E8C96A;
+  --ink:         #1A0A00;
+  --ink-faded:   #3D2B1A;
+  --seal-red:    #8B1A1A;
+}
+
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: "KaiTi", "STKaiti", "FangSong", "Noto Serif SC", "STSong", serif;
+  background-color: var(--deep-wood);
+  color: var(--ink);
+  min-height: 100vh;
+  position: relative;
+}
+
+/* ===== WOOD DESK BACKGROUND ===== */
+.desk {
+  min-height: 100vh;
+  background:
+    repeating-linear-gradient(
+      92deg,
+      transparent 0px, transparent 60px,
+      rgba(0,0,0,0.04) 60px, rgba(0,0,0,0.04) 62px
+    ),
+    repeating-linear-gradient(
+      180deg,
+      transparent 0px, transparent 120px,
+      rgba(255,200,100,0.03) 120px, rgba(255,200,100,0.03) 122px
+    ),
+    linear-gradient(160deg,
+      #3B1F0E 0%,
+      #2A1509 20%,
+      #1E0D05 40%,
+      #2C1810 60%,
+      #1A0C06 80%,
+      #251209 100%
+    );
+  padding: 0 0 60px 0;
+  position: relative;
+}
+
+/* ===== PAGE HEADER ===== */
+.page-header {
+  text-align: center;
+  padding: 50px 20px 40px;
+  position: relative;
+  z-index: 2;
+}
+
+.header-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 16px;
+}
+
+.ornament-line {
+  flex: 1;
+  max-width: 160px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.ornament-diamond {
+  width: 8px; height: 8px;
+  background: var(--gold);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+.page-title {
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 700;
+  color: var(--gold-lt);
+  letter-spacing: 0.3em;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.6), 0 0 40px rgba(201,168,76,0.3);
+  margin-bottom: 8px;
+}
+
+.page-subtitle {
+  font-size: clamp(0.85rem, 2vw, 1.05rem);
+  color: var(--parchment-dk);
+  letter-spacing: 0.6em;
+  opacity: 0.75;
+  font-weight: 300;
+}
+
+.header-rule {
+  width: 200px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 20px auto 0;
+}
+
+/* ===== SCROLL GRID ===== */
+.scroll-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px 30px 60px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== CLOSED SCROLL ===== */
+.scroll-item {
+  position: relative;
+  cursor: pointer;
+  transform-origin: center bottom;
+  transition: transform 0.2s ease;
+}
+
+.scroll-item:hover .scroll-closed {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.7), 0 0 20px rgba(201,168,76,0.15);
+}
+
+.scroll-closed {
+  background: linear-gradient(180deg,
+    #8B6914 0%,
+    #A07820 8%,
+    #C9A84C 15%,
+    #B8922A 85%,
+    #9A7518 92%,
+    #7A5C10 100%
+  );
+  border-radius: 6px 6px 6px 6px;
+  padding: 0;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.15),
+    inset 0 -1px 0 rgba(0,0,0,0.3);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+/* Roller tops and bottoms */
+.scroll-closed::before,
+.scroll-closed::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 14px;
+  background: linear-gradient(180deg,
+    #5C3D0A 0%,
+    #8B6020 30%,
+    #A07828 50%,
+    #7A5018 70%,
+    #4A2E08 100%
+  );
+  flex-shrink: 0;
+  border-radius: 3px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+.scroll-closed::before { border-radius: 6px 6px 3px 3px; }
+.scroll-closed::after  { border-radius: 3px 3px 6px 6px; }
+
+.scroll-body-closed {
+  flex: 1;
+  width: 100%;
+  background: linear-gradient(180deg,
+    #F2E8D0 0%,
+    #EDE0C0 40%,
+    #E8D8B0 70%,
+    #F0E4C8 100%
+  );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 8px;
+  position: relative;
+  border-left: 2px solid rgba(180,140,60,0.4);
+  border-right: 2px solid rgba(180,140,60,0.4);
+}
+
+/* Aged paper texture lines */
+.scroll-body-closed::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    180deg,
+    transparent 0px,
+    transparent 18px,
+    rgba(139,100,40,0.08) 18px,
+    rgba(139,100,40,0.08) 19px
+  );
+  pointer-events: none;
+}
+
+/* Center fold line */
+.scroll-body-closed::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: rgba(139,100,40,0.2);
+  transform: translateX(-50%);
+}
+
+.scroll-name-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--ink);
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.3);
+}
+
+.scroll-dynasty-tag {
+  font-size: 0.65rem;
+  color: var(--vermillion);
+  letter-spacing: 0.1em;
+  margin-top: 8px;
+  position: relative;
+  z-index: 1;
+  font-weight: 600;
+}
+
+/* ===== OVERLAY BACKDROP ===== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 8, 2, 0.82);
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ===== OPEN SCROLL ===== */
+.scroll-open {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scaleY(0);
+  transform-origin: top center;
+  z-index: 200;
+  width: min(680px, 92vw);
+  max-height: 88vh;
+  overflow-y: auto;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.55s cubic-bezier(0.34, 1.3, 0.64, 1),
+    opacity 0.4s ease;
+}
+
+.scroll-open.active {
+  transform: translate(-50%, -50%) scaleY(1);
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Custom scrollbar */
+.scroll-open::-webkit-scrollbar { width: 6px; }
+.scroll-open::-webkit-scrollbar-track { background: var(--parchment-dk); }
+.scroll-open::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+.scroll-open-inner {
+  background: linear-gradient(180deg,
+    #F8F0DC 0%,
+    #F2E8CE 20%,
+    #EEE2C4 50%,
+    #F0E6CC 80%,
+    #F6EDD8 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+/* Paper texture overlay */
+.scroll-open-inner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      transparent 0px,
+      transparent 28px,
+      rgba(139,100,40,0.06) 28px,
+      rgba(139,100,40,0.06) 29px
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Top roller */
+.scroll-roller-top,
+.scroll-roller-bottom {
+  width: 100%;
+  height: 22px;
+  background: linear-gradient(180deg,
+    #4A2E08 0%,
+    #7A5018 25%,
+    #A07828 50%,
+    #7A5018 75%,
+    #4A2E08 100%
+  );
+  box-shadow: 0 3px 8px rgba(0,0,0,0.5);
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.scroll-roller-top  { border-radius: 8px 8px 0 0; }
+.scroll-roller-bottom { border-radius: 0 0 8px 8px; box-shadow: 0 -2px 6px rgba(0,0,0,0.4); }
+
+/* Gold roller end caps */
+.scroll-roller-top::before,  .scroll-roller-top::after,
+.scroll-roller-bottom::before, .scroll-roller-bottom::after {
+  content: '';
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  width: 16px; height: 16px;
+  background: radial-gradient(circle at 35% 35%, var(--gold-lt), var(--gold), #8B6914);
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+.scroll-roller-top::before,  .scroll-roller-bottom::before { left: 12px; }
+.scroll-roller-top::after,   .scroll-roller-bottom::after  { right: 12px; }
+
+.scroll-content {
+  padding: 30px 44px 36px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Decorative border frame */
+.scroll-frame {
+  border: 2px solid rgba(169,120,50,0.35);
+  padding: 24px;
+  position: relative;
+}
+
+.scroll-frame::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border: 1px solid rgba(169,120,50,0.2);
+  pointer-events: none;
+}
+
+/* Corner ornaments */
+.corner {
+  position: absolute;
+  width: 20px; height: 20px;
+  border-color: var(--gold);
+  border-style: solid;
+  opacity: 0.6;
+}
+.corner-tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+.corner-tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+.corner-bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+.corner-br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+/* Header area */
+.scroll-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(169,120,50,0.3);
+}
+
+/* Portrait */
+.portrait-wrap {
+  flex-shrink: 0;
+  width: 110px;
+}
+
+.portrait-img {
+  width: 110px;
+  height: 140px;
+  object-fit: cover;
+  object-position: top center;
+  border: 3px solid var(--gold);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(201,168,76,0.3);
+  display: block;
+  background: linear-gradient(135deg, var(--parchment-dk), #D4B88A);
+}
+
+/* Fallback portrait silhouette */
+.portrait-fallback {
+  width: 110px;
+  height: 140px;
+  border: 3px solid var(--gold);
+  background: linear-gradient(160deg, #E8D8B0, #C4A870);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.portrait-fallback::before {
+  content: '古';
+  font-size: 3.5rem;
+  color: rgba(139,100,40,0.25);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.portrait-label {
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--ink-faded);
+  margin-top: 6px;
+  letter-spacing: 0.05em;
+}
+
+/* Scholar info beside portrait */
+.scholar-info {
+  flex: 1;
+}
+
+.scholar-name {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.2em;
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+
+.scholar-dynasty {
+  font-size: 0.9rem;
+  color: var(--vermillion);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  margin-bottom: 10px;
+}
+
+.scholar-aliases {
+  font-size: 0.82rem;
+  color: var(--ink-faded);
+  line-height: 1.8;
+  letter-spacing: 0.05em;
+}
+
+.alias-row { display: flex; gap: 6px; align-items: baseline; margin-bottom: 3px; }
+.alias-label {
+  font-size: 0.72rem;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  padding: 0 4px;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+/* Biography */
+.bio-section {
+  margin-bottom: 20px;
+}
+
+.bio-title {
+  font-size: 0.75rem;
+  color: var(--gold);
+  letter-spacing: 0.3em;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.bio-title::before, .bio-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.4), transparent);
+}
+
+.bio-text {
+  font-size: 0.9rem;
+  line-height: 2;
+  color: var(--ink-faded);
+  letter-spacing: 0.05em;
+  text-indent: 2em;
+}
+
+/* Quote block */
+.quote-block {
+  background: linear-gradient(135deg,
+    rgba(139,100,40,0.08),
+    rgba(139,100,40,0.04)
+  );
+  border-left: 3px solid var(--vermillion);
+  padding: 14px 18px;
+  margin: 20px 0;
+  position: relative;
+}
+
+.quote-block::before {
+  content: '❝';
+  position: absolute;
+  top: -8px; left: 10px;
+  font-size: 1.4rem;
+  color: var(--vermillion);
+  opacity: 0.5;
+  line-height: 1;
+}
+
+.quote-text {
+  font-size: 0.95rem;
+  color: var(--ink);
+  line-height: 1.9;
+  letter-spacing: 0.1em;
+  font-style: normal;
+}
+
+.quote-source {
+  font-size: 0.75rem;
+  color: var(--ink-faded);
+  text-align: right;
+  margin-top: 6px;
+  letter-spacing: 0.1em;
+}
+
+/* Seal footer */
+.scroll-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(169,120,50,0.3);
+}
+
+.imperial-phrase {
+  font-size: 0.75rem;
+  color: var(--ink-faded);
+  letter-spacing: 0.2em;
+  writing-mode: horizontal-tb;
+}
+
+.seal {
+  width: 64px; height: 64px;
+  border: 2.5px solid var(--seal-red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-8deg);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.seal::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: 1px solid var(--seal-red);
+  opacity: 0.5;
+}
+
+.seal-text {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--seal-red);
+  letter-spacing: 0.05em;
+  text-align: center;
+  line-height: 1.4;
+  position: relative;
+  z-index: 1;
+}
+
+/* Works tags */
+.works-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.work-tag {
+  font-size: 0.72rem;
+  padding: 3px 10px;
+  border: 1px solid rgba(169,120,50,0.5);
+  color: var(--ink-faded);
+  letter-spacing: 0.05em;
+  background: rgba(201,168,76,0.06);
+}
+
+/* Close button */
+.close-btn {
+  position: fixed;
+  top: 20px; right: 24px;
+  z-index: 300;
+  background: none;
+  border: 1.5px solid var(--gold);
+  color: var(--gold-lt);
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, background 0.2s, transform 0.2s;
+  font-family: inherit;
+}
+
+.close-btn.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.close-btn:hover {
+  background: rgba(201,168,76,0.15);
+  transform: rotate(90deg);
+}
+
+/* Grid items stay interactive; overlay intercepts clicks via z-index */
+
+/* ===== PAGE FOOTER ===== */
+.page-footer {
+  text-align: center;
+  padding: 30px 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.footer-text {
+  font-size: 0.72rem;
+  color: rgba(201,168,76,0.35);
+  letter-spacing: 0.3em;
+}
+
+/* ===== CLOUD BORDER DECOR ===== */
+.cloud-border {
+  width: 100%;
+  height: 6px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--gold) 0px, var(--gold) 8px,
+    transparent 8px, transparent 16px
+  );
+  opacity: 0.2;
+  margin: 0 auto;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 700px) {
+  .scroll-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 14px;
+    padding: 10px 16px 40px;
+  }
+
+  .scroll-open {
+    width: 96vw;
+    max-height: 92vh;
+  }
+
+  .scroll-content { padding: 20px 20px 24px; }
+
+  .scroll-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .portrait-wrap { width: 90px; }
+  .portrait-img, .portrait-fallback { width: 90px; height: 115px; }
+
+  .scholar-name { font-size: 1.6rem; text-align: center; }
+  .alias-row { justify-content: center; }
+
+  .scroll-footer { flex-direction: column; gap: 16px; align-items: center; }
+  .imperial-phrase { text-align: center; }
+
+  .page-title { letter-spacing: 0.2em; }
+}
+
+@media (max-width: 400px) {
+  .scroll-grid { grid-template-columns: repeat(2, 1fr); gap: 14px 10px; }
+  .scroll-name-vertical { font-size: 1.1rem; }
+}
+
+/* ===== ANIMATION CLASSES ===== */
+@keyframes scroll-unfurl {
+  0%   { transform: translate(-50%, -50%) scaleY(0.05); opacity: 0; }
+  60%  { transform: translate(-50%, -50%) scaleY(1.03); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scaleY(1); opacity: 1; }
+}
+
+@keyframes scroll-furl {
+  0%   { transform: translate(-50%, -50%) scaleY(1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scaleY(0.05); opacity: 0; }
+}
+
+.scroll-open.unfurling {
+  animation: scroll-unfurl 0.55s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
+}
+
+.scroll-open.furling {
+  animation: scroll-furl 0.35s ease-in forwards;
+}
+
+/* Ink brush divider */
+.ink-divider {
+  width: 80%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(139,100,40,0.3), rgba(139,100,40,0.5), rgba(139,100,40,0.3), transparent);
+  margin: 0 auto 16px;
+  position: relative;
+}
+
+.ink-divider::before {
+  content: '◆';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  color: rgba(139,100,40,0.4);
+  font-size: 0.6rem;
+  line-height: 1;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-open, .overlay, .scroll-closed { transition: none !important; animation: none !important; }
+  .scroll-open.active { transform: translate(-50%, -50%) scaleY(1); opacity: 1; }
+}
+</style>
+</head>
+<body oncontextmenu="return false;"></body>
+<div class="desk">
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <div class="header-ornament">
+      <div class="ornament-line"></div>
+      <div class="ornament-diamond"></div>
+      <div class="ornament-line"></div>
+    </div>
+    <h1 class="page-title">唐宋八大家</h1>
+    <p class="page-subtitle">Tang · Song · Eight · Great · Masters</p>
+    <div class="header-rule"></div>
+  </header>
+
+  <div class="cloud-border"></div>
+
+  <!-- SCROLL GRID -->
+  <main class="scroll-grid" id="scrollGrid">
+    <!-- Scrolls rendered by JS -->
+  </main>
+
+  <!-- PAGE FOOTER -->
+  <footer class="page-footer">
+    <div class="cloud-border"></div>
+    <p class="footer-text" style="margin-top:20px">奏折典藏 · 文以载道 · 千古流芳</p>
+  </footer>
+
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay"></div>
+
+<!-- CLOSE BUTTON -->
+<button class="close-btn" id="closeBtn" aria-label="关闭奏折">✕</button>
+
+<!-- OPEN SCROLL PANEL -->
+<div class="scroll-open" id="scrollOpen" role="dialog" aria-modal="true">
+  <div class="scroll-open-inner" id="scrollOpenInner">
+    <div class="scroll-roller-top"></div>
+    <div class="scroll-content">
+      <div class="scroll-frame" id="scrollFrame">
+        <span class="corner corner-tl"></span>
+        <span class="corner corner-tr"></span>
+        <span class="corner corner-bl"></span>
+        <span class="corner corner-br"></span>
+        <!-- content injected here -->
+      </div>
+    </div>
+    <div class="scroll-roller-bottom"></div>
+  </div>
+</div>
+
+<script>
+/* ===========================
+   DATA
+=========================== */
+const scholars = [
+  {
+    id: "hanyu",
+    name: "韩愈",
+    nameEn: "Han Yu",
+    dynasty: "唐代",
+    courtesy: "退之",
+    pseudo: "昌黎先生",
+    img: "images/hanyu.jpg",
+    title: "文起八代之衰",
+    bio: "韩愈，字退之，河南河阳人，唐代著名文学家、哲学家、政治家，古文运动的倡导者与领袖。其散文气势磅礴，思想深邃，力倡『文以载道』，反对骈文浮靡之风，主张复兴先秦两汉散文传统。苏轼赞誉其『文起八代之衰，道济天下之溺』，被尊为『百代文宗』。",
+    quote: "业精于勤，荒于嬉；行成于思，毁于随。",
+    quoteSource: "《进学解》",
+    works: ["《师说》", "《祭十二郎文》", "《马说》", "《原道》", "《昌黎先生集》"],
+    sealText: "百代\n文宗"
+  },
+  {
+    id: "liuzongyuan",
+    name: "柳宗元",
+    nameEn: "Liu Zongyuan",
+    dynasty: "唐代",
+    courtesy: "子厚",
+    pseudo: "柳河东",
+    img: "images/liuzongyuan.jpeg",
+    title: "唐宋古文运动先驱",
+    bio: "柳宗元，字子厚，河东解县人，唐代文学家、哲学家，『唐宋八大家』之一，与韩愈并称『韩柳』。因参与永贞革新失败，被贬永州，期间写下著名的《永州八记》，山水散文达到极高艺术境界。其文章简洁深刻，寓理于景，开创了中国山水游记文学的先河。",
+    quote: "千山鸟飞绝，万径人踪灭。孤舟蓑笠翁，独钓寒江雪。",
+    quoteSource: "《江雪》",
+    works: ["《永州八记》", "《捕蛇者说》", "《小石潭记》", "《三戒》"],
+    sealText: "韩柳\n并称"
+  },
+  {
+    id: "ouyangxiu",
+    name: "欧阳修",
+    nameEn: "Ouyang Xiu",
+    dynasty: "北宋",
+    courtesy: "永叔",
+    pseudo: "醉翁、六一居士",
+    img: "images/ouyangxiu.jpg",
+    title: "北宋文坛领袖",
+    bio: "欧阳修，字永叔，号醉翁，晚号六一居士，北宋文学家、史学家，北宋文坛领袖与改革先驱。他大力提倡古文，奖掖后进，苏轼、苏辙、曾巩等皆出其门下。其散文平易流畅，词作婉约深情，《醉翁亭记》传诵千古，主持编撰《新唐书》《新五代史》，史才卓绝。",
+    quote: "醉翁之意不在酒，在乎山水之间也。",
+    quoteSource: "《醉翁亭记》",
+    works: ["《醉翁亭记》", "《秋声赋》", "《新唐书》", "《六一词》", "《伶官传序》"],
+    sealText: "醉翁\n遗风"
+  },
+  {
+    id: "suxun",
+    name: "苏洵",
+    nameEn: "Su Xun",
+    dynasty: "北宋",
+    courtesy: "明允",
+    pseudo: "老泉",
+    img: "images/suxun.jpg",
+    title: "三苏之父，大器晚成",
+    bio: "苏洵，字明允，号老泉，眉州眉山人，北宋著名文学家，『三苏』之父。年过二十七方发愤读书，后与子苏轼、苏辙同至京师，一时天下称之为『三苏』。其文章纵横捭阖，论古今治乱，气势雄浑，尤长于政论文，欧阳修称赏其文，使名声大振于世。",
+    quote: "为将之道，当先治心。泰山崩于前而色不变，麋鹿兴于左而目不瞬。",
+    quoteSource: "《心术》",
+    works: ["《六国论》", "《心术》", "《嘉祐集》", "《权书》", "《衡论》"],
+    sealText: "老泉\n遗范"
+  },
+  {
+    id: "sushi",
+    name: "苏轼",
+    nameEn: "Su Shi",
+    dynasty: "北宋",
+    courtesy: "子瞻",
+    pseudo: "东坡居士",
+    img: "images/sushi.jpeg",
+    title: "千古第一文人",
+    bio: "苏轼，字子瞻，号东坡居士，北宋著名文学家、书法家、画家，被誉为『千古第一文人』。其文汪洋恣肆，诗豪迈清新，词开豪放一派，书法为『宋四家』之首。仕途屡经贬谪，却处之泰然，黄州、惠州、儋州皆留下不朽诗文。以一人之力，跨越诗、词、文、书、画，无一不精，千古罕有其匹。",
+    quote: "大江东去，浪淘尽，千古风流人物。",
+    quoteSource: "《念奴娇·赤壁怀古》",
+    works: ["《赤壁赋》", "《念奴娇·赤壁怀古》", "《水调歌头》", "《东坡七集》"],
+    sealText: "千古\n文宗"
+  },
+  {
+    id: "suzhe",
+    name: "苏辙",
+    nameEn: "Su Zhe",
+    dynasty: "北宋",
+    courtesy: "子由",
+    pseudo: "颍滨遗老",
+    img: "images/suzhe.jpg",
+    title: "三苏之末，文章典雅",
+    bio: "苏辙，字子由，号颍滨遗老，眉州眉山人，苏洵次子，苏轼之弟，『三苏』中年龄最小者。其文章汪洋澹泊，有一种疏淡的气息，别具一格。政论文议论精辟，多有真知灼见。兄弟二人手足情深，苏轼在外漂泊时，常以诗词与弟唱和，留下诸多脍炙人口的篇章。",
+    quote: "吾生之初，未尝怠惰；及其衰也，无所不用其力。",
+    quoteSource: "《颍滨遗老传》",
+    works: ["《栾城集》", "《六国论》", "《黄州快哉亭记》", "《诗集传》"],
+    sealText: "子由\n颍滨"
+  },
+  {
+    id: "wanganshi",
+    name: "王安石",
+    nameEn: "Wang Anshi",
+    dynasty: "北宋",
+    courtesy: "介甫",
+    pseudo: "半山",
+    img: "images/wanganshi.jpg",
+    title: "熙宁变法主导者",
+    bio: "王安石，字介甫，号半山，抚州临川人，北宋著名政治家、文学家、思想家，熙宁变法的主导者。其政论文笔锋犀利，直言敢谏，散文简洁深刻，诗作清新峭拔，自成『王荆公体』。以天变不足畏、祖宗不足法、人言不足恤的『三不足』精神推行新法，虽最终失败，却展示了古代士大夫改革的勇气与担当。",
+    quote: "不畏浮云遮望眼，自缘身在最高层。",
+    quoteSource: "《登飞来峰》",
+    works: ["《游褒禅山记》", "《答司马谏议书》", "《王临川集》", "《泊船瓜洲》"],
+    sealText: "荆公\n新法"
+  },
+  {
+    id: "zenggong",
+    name: "曾巩",
+    nameEn: "Zeng Gong",
+    dynasty: "北宋",
+    courtesy: "子固",
+    pseudo: "南丰先生",
+    img: "images/zenggong.jpeg",
+    title: "儒家气节之典范",
+    bio: "曾巩，字子固，建昌军南丰人，世称『南丰先生』，北宋文学家，『唐宋八大家』之一，师从欧阳修。其文章雍容平正，纡徐委备，义理深邃，以道德文章为世人楷模，被誉为儒家气节的典范人物。曾巩博览群书，涉猎广泛，治学严谨，为文讲究结构之美，层次分明，逻辑严密。",
+    quote: "立身以立学为先，立学以读书为本。",
+    quoteSource: "《曾子固文集》",
+    works: ["《元丰类稿》", "《墨池记》", "《越州赵公救灾记》", "《南齐书目录序》"],
+    sealText: "南丰\n遗范"
+  }
+];
+
+/* ===========================
+   STATE
+=========================== */
+let openId = null;
+let isAnimating = false;
+
+/* ===========================
+   DOM REFS
+=========================== */
+const grid      = document.getElementById("scrollGrid");
+const overlay   = document.getElementById("overlay");
+const scrollPanel = document.getElementById("scrollOpen");
+const frame     = document.getElementById("scrollFrame");
+const closeBtn  = document.getElementById("closeBtn");
+
+/* ===========================
+   BUILD GRID
+=========================== */
+function buildGrid() {
+  scholars.forEach(s => {
+    const item = document.createElement("div");
+    item.className = "scroll-item";
+    item.id = "item-" + s.id;
+    item.setAttribute("role", "button");
+    item.setAttribute("tabindex", "0");
+    item.setAttribute("aria-label", s.name + " " + s.dynasty);
+    item.innerHTML = `
+      <div class="scroll-closed" id="closed-${s.id}">
+        <div class="scroll-body-closed">
+          <span class="scroll-name-vertical">${s.name}</span>
+          <span class="scroll-dynasty-tag">${s.dynasty}</span>
+        </div>
+      </div>`;
+    item.addEventListener("click", () => onScrollClick(s.id));
+    item.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") onScrollClick(s.id); });
+    grid.appendChild(item);
+  });
+}
+
+/* ===========================
+   RENDER SCROLL CONTENT
+=========================== */
+function renderContent(s) {
+  const worksHtml = s.works.map(w => `<span class="work-tag">${w}</span>`).join("");
+  frame.innerHTML = `
+    <span class="corner corner-tl"></span>
+    <span class="corner corner-tr"></span>
+    <span class="corner corner-bl"></span>
+    <span class="corner corner-br"></span>
+
+    <div class="scroll-header">
+      <div class="portrait-wrap">
+        <img
+          class="portrait-img"
+          src="${s.img}"
+          alt="${s.name}画像"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+        >
+        <div class="portrait-fallback" style="display:none;">
+        </div>
+        <p class="portrait-label">${s.nameEn}</p>
+      </div>
+      <div class="scholar-info">
+        <h2 class="scholar-name">${s.name}</h2>
+        <p class="scholar-dynasty">${s.dynasty} · ${s.title}</p>
+        <div class="alias-row"><span class="alias-label">字</span><span>${s.courtesy}</span></div>
+        <div class="alias-row"><span class="alias-label">号</span><span>${s.pseudo}</span></div>
+      </div>
+    </div>
+
+    <div class="ink-divider"></div>
+
+    <div class="bio-section">
+      <div class="bio-title">生平简述</div>
+      <p class="bio-text">${s.bio}</p>
+    </div>
+
+    <div class="quote-block">
+      <p class="quote-text">${s.quote}</p>
+      <p class="quote-source">—— ${s.quoteSource}</p>
+    </div>
+
+    <div class="bio-title" style="margin-top:16px">代表作品</div>
+    <div class="works-wrap">${worksHtml}</div>
+
+    <div class="scroll-footer">
+      <div class="imperial-phrase">謹呈御覽　奉旨典藏</div>
+      <div class="seal"><span class="seal-text">${s.sealText.replace(/\n/g, '<br>')}</span></div>
+    </div>
+  `;
+}
+
+/* ===========================
+   OPEN SCROLL
+=========================== */
+function openScroll(id) {
+  const s = scholars.find(x => x.id === id);
+  if (!s) return;
+  openId = id;
+
+  renderContent(s);
+
+  overlay.classList.add("active");
+  closeBtn.classList.add("active");
+
+  // Clean slate before animating so class transitions fire reliably
+  scrollPanel.classList.remove("furling", "unfurling", "active");
+  void scrollPanel.offsetWidth; // force reflow
+
+  scrollPanel.classList.add("active", "unfurling");
+
+  setTimeout(() => {
+    scrollPanel.classList.remove("unfurling");
+    isAnimating = false;
+  }, 600);
+}
+
+/* ===========================
+   CLOSE SCROLL
+=========================== */
+function closeScroll(cb) {
+  scrollPanel.classList.remove("unfurling");
+  void scrollPanel.offsetWidth; // force reflow
+  scrollPanel.classList.add("furling");
+
+  overlay.classList.remove("active");
+  closeBtn.classList.remove("active");
+
+  setTimeout(() => {
+    scrollPanel.classList.remove("active", "furling");
+    openId = null;
+    isAnimating = false;
+    if (cb) cb();
+  }, 400);
+}
+
+/* ===========================
+   CLICK HANDLER
+=========================== */
+function onScrollClick(id) {
+  if (isAnimating) return;
+
+  if (openId === id) {
+    // clicking same scroll: close it
+    isAnimating = true;
+    closeScroll();
+    return;
+  }
+
+  if (openId) {
+    // close current, then open new
+    isAnimating = true;
+    closeScroll(() => {
+      setTimeout(() => openScroll(id), 80);
+    });
+  } else {
+    // nothing open: just open
+    isAnimating = true;
+    openScroll(id);
+  }
+}
+
+/* ===========================
+   CLOSE BUTTON & OVERLAY
+=========================== */
+closeBtn.addEventListener("click", () => {
+  if (isAnimating || !openId) return;
+  isAnimating = true;
+  closeScroll();
+});
+
+overlay.addEventListener("click", () => {
+  if (isAnimating || !openId) return;
+  isAnimating = true;
+  closeScroll();
+});
+
+/* ESC key */
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && openId && !isAnimating) {
+    isAnimating = true;
+    closeScroll();
+  }
+});
+
+/* ===========================
+   INIT
+=========================== */
+buildGrid();
+</script>
+</body>
+</html>
